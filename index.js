@@ -4,6 +4,7 @@ const Twitter = require('twitter')
 const Datastore = require('@google-cloud/datastore')
 const emojiRegex = require('emoji-regex')()
 const sample = require('lodash.sample')
+const generateImage = require('typesetters-son')
 
 const config = require('./config.json')
 
@@ -28,6 +29,44 @@ function randomize(template) {
 
 function today() {
   return moment().tz(config.tz).format('YYYY-MM-DD')
+}
+
+exports.postReminder = function(ev, callback) {
+  const client = new Twitter(config)
+
+  randomizedSubs = {}
+  for (const key of Object.keys(config.reminder_img.subs)) {
+    let value = config.reminder_img.subs[key]
+    if (value === '{tomorrow}') {
+      value = moment().add(1, 'days').format('dddd, MMMM D, YYYY')
+    } else {
+      value = randomize(value)
+    }
+    randomizedSubs[key] = value
+  }
+
+  generateImage(Object.assign(config.reminder_img, {
+    subs: randomizedSubs,
+    output: './reminder_image.png',
+  }))
+    .then(imgData => {
+      return client.post('media/upload', {media: imgData})
+    })
+    .then(media => {
+      console.log('uploaded media', media)
+      client.post('statuses/update', {
+        status: randomize(config.reminder_msg),
+        media_ids: media.media_id_string,
+      })
+    })
+    .then(resp => {
+      console.log('tweeted', resp)
+      callback()
+    })
+    .catch(err => {
+      console.error('error:', err)
+      callback(err)
+    })
 }
 
 exports.postEvent = function(ev, callback) {

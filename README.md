@@ -5,6 +5,7 @@
 Dogpack is a Twitter bot which automates announcing and confirming meetups of [DogpatchJS](http://dogpatchjs.com/). It will:
 
  * Tweet announcing DogpatchJS the morning of the meetup
+ * Tweet a reminder the day before the meetup
  * Accept RSVPs in the form of DMs containing emoji
  * Tweet a confirmation or cancellation of the event depending on how many RSVPs are received
  

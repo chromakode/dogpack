@@ -15,6 +15,21 @@
     ],
     ["⬇️", "⤵️", "🆒", "🆗"], " DM me an emoji to RSVP.\n\n"
   ],
+  "reminder_msg": [
+    "DogpatchJS is coming up! Monday, September 4th at Spark Social ", ["🐾", "🙌", "✨", "🐩", "🐕"], "\n\n",
+    "RSVPs start tomorrow at 11am. ", ["🚀", "😀", "🐩", "🌟", "🌅"]
+  ],
+  "reminder_img": {
+    "url": "http://dogpatchjs.com/banner",
+    "width": 1024,
+    "height": 800,
+    "crop": "body",
+    "subs": {
+      "#day": "{tomorrow}",
+      "#where": ["Spark Social"],
+      "#time": ["6:30pm"]
+    }
+  },
   "cancel_msg": [
     "We're skipping DogpatchJS tonight since fewer than 4 people RSVP'd. ",
     ["😢", "😴", "💀"],
