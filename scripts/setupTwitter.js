@@ -6,13 +6,18 @@ const url = require('url')
 
 const callbackURL = 'http://localhost:3000/callback'
 
-const config = require('../config.json')
+if (process.argv.length !== 4) {
+  console.log('Usage: node setupTwitter.js CONSUMER_KEY CONSUMER_SECRET')
+  process.exit(1)
+}
+const CONSUMER_KEY = process.argv[2]
+const CONSUMER_SECRET = process.argv[3]
 
 const oa = new OAuth(
   'https://api.twitter.com/oauth/request_token',
   'https://api.twitter.com/oauth/access_token',
-  config.consumer_key,
-  config.consumer_secret,
+  CONSUMER_KEY,
+  CONSUMER_SECRET,
   '1.0',
   callbackURL,
   'HMAC-SHA1'
@@ -36,28 +41,37 @@ http.createServer(function(req, res) {
       '/callback': function(req, res) {
         const getOAuthRequestTokenCallback = function(error, oAuthAccessToken, oAuthAccessTokenSecret, results) {
           if (error) {
-            console.log(error)
+            console.error(error)
             res.writeHead(500)
             return res.end('error')
           }
 
           oa.get('https://api.twitter.com/1.1/account/verify_credentials.json', oAuthAccessToken, oAuthAccessTokenSecret, function(error, twitterResponse, result) {
             if (error) {
-              console.log(error)
+              console.error(error)
               res.writeHead(500)
               return res.end('error')
             }
 
-            config.access_token_key = oAuthAccessToken
-            config.access_token_secret = oAuthAccessTokenSecret
-            config.twitter_id = JSON.parse(twitterResponse).id_str
+            const config = {
+              consumer_key: CONSUMER_KEY,
+              consumer_secret: CONSUMER_SECRET,
+              access_token_key: oAuthAccessToken,
+              access_token_secret: oAuthAccessTokenSecret,
+              twitter_id: JSON.parse(twitterResponse).id_str,
+              webhook_name: `hook-${crypto.randomBytes(16).toString('hex')}`,
+            }
 
-            const body = `<meta charset="utf-8"><p>Success! Updated config:</p><pre>${JSON.stringify(config, null, 2)}</pre><p>Suggested webhook name: hook-${crypto.randomBytes(16).toString('hex')}</p>`
+            const configText = JSON.stringify(config, null, 2)
+            console.log(configText)
+
+            const body = `<meta charset="utf-8"><p>Success! Output config:</p><pre>${configText}</pre>`
             res.writeHead(200, {
               'Content-Length': Buffer.byteLength(body, 'utf8'),
               'Content-Type': 'text/html',
             })
             res.end(body)
+            process.exit(0)
           })
         }
 
@@ -74,4 +88,5 @@ http.createServer(function(req, res) {
   })
 }).listen(3000)
 
-console.log('Running on http://localhost:3000')
+// Print to stderr
+console.error('Running on http://localhost:3000')

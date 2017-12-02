@@ -1,10 +1,4 @@
 {
-  "project_id": "",
-  "consumer_key": "",
-  "consumer_secret": "",
-  "access_token_key": "",
-  "access_token_secret": "",
-  "twitter_id": "",
   "tz": "America/Los_Angeles",
   "event_msg": [
     ["🐶", "🐕", "🐾", "🐩"], " DogpatchJS is tonight (6:30pm) @ Spark Social.\n",

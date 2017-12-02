@@ -1,16 +1,21 @@
 {
   "name": "dogpack",
   "description": "A Twitter bot for managing DogpatchJS",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "dependencies": {
-    "@google-cloud/datastore": "^1.0.2",
+    "aws-sdk": "^2.162.0",
+    "chrome-remote-interface": "^0.25.4",
     "emoji-regex": "^6.4.2",
     "lodash.sample": "^4.2.1",
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.13",
     "oauth": "^0.9.15",
     "twitter": "^1.7.1",
-    "typesetters-son": "^1.2.0"
+    "typesetters-son": "^1.3.1"
+  },
+  "devDependencies": {
+    "serverless": "^1.24.1",
+    "serverless-plugin-chrome": "^1.0.0-29"
   }
 }

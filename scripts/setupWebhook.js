@@ -1,17 +1,15 @@
 #!/usr/bin/env node
+const fs = require('fs')
 const process = require('process')
 const Twitter = require('twitter')
 
-const config = require('../config.json')
-
-const client = new Twitter(config)
-
-if (process.argv.length !== 3) {
-  console.log('usage: ./setupWebhook.js webhook-url')
+if (process.argv.length !== 4) {
+  console.log('Usage: node setupWebhook.js path-to-keys.json https://your-webhook-url')
   process.exit(1)
 }
-
-const webhookURL = process.argv[2]
+const twitterKeys = JSON.parse(fs.readFileSync(process.argv[2], 'utf-8'))
+const webhookURL = process.argv[3]
+const client = new Twitter(twitterKeys)
 
 console.log('Registering webhook:', webhookURL)
 client.get('account_activity/webhooks', {})
