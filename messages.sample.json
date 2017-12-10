@@ -36,5 +36,7 @@
   "huh_dm_msg": "🤔 please send an emoji if you'd like to RSVP!",
   "ok_dm_msg": "🎉 see you there! (send me \"nvm\" if you change your mind)",
   "ok_nvm_dm_msg": "😢 ok",
+  "who_dm_msg": "✅ {who}",
+  "who_none_dm_msg": "😢 nobody yet",
   "min_rsvp": 4
 }

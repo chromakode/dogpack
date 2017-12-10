@@ -4,7 +4,7 @@ const moment = require('moment-timezone')
 const Twitter = require('twitter')
 const emojiRegex = require('emoji-regex')()
 
-const {randomize} = require('./utils')
+const {randomize, today} = require('./utils')
 const {messages, twitterKeys} = require('./env')
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient()
@@ -61,6 +61,34 @@ exports.default = function(event, context, callback) {
           user_id: senderID,
           text: randomize(messages.ok_nvm_dm_msg),
         }))
+    }
+
+    if (messageText === 'who') {
+      console.log('who received. sending who response')
+      const queryFetchParams = {
+        TableName: process.env.DYNAMODB_TABLE_RSVPS,
+        KeyConditionExpression: '#date = :date',
+        ExpressionAttributeNames: {
+          '#date': 'Date',
+        },
+        ExpressionAttributeValues: {
+          ':date': today(),
+        },
+      }
+      return dynamoDB.query(queryFetchParams).promise()
+        .then(rsvpItems => {
+          let msgText
+          if (rsvpItems.Items.length) {
+            const namesText = rsvpItems.Items.map(rsvp => `@${rsvp.Name}`).join(', ')
+            msgText = randomize(messages.who_dm_msg).replace('{who}', namesText)
+          } else {
+            msgText = randomize(messages.who_none_dm_msg)
+          }
+          return client.post('direct_messages/new', {
+            user_id: senderID,
+            text: msgText,
+          })
+        })
     }
 
     const emojiMatch = messageText.match(emojiRegex)
