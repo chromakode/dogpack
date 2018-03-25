@@ -22,6 +22,12 @@ exports.randomize = function randomize(template) {
   return visit(template, false)
 }
 
+exports.isScheduledNow = function(key) {
+  const now = moment().tz(messages.tz)
+  const scheduled = moment.tz(messages.schedule[key], 'dddd ha', messages.tz)
+  return now.day() === scheduled.day() && now.hour() === scheduled.hour()
+}
+
 exports.today = function() {
   return moment().tz(messages.tz).format('YYYY-MM-DD')
 }

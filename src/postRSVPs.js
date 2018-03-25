@@ -1,12 +1,17 @@
 const AWS = require('aws-sdk')
 const Twitter = require('twitter')
 
-const {randomize, today} = require('./utils')
+const {isScheduledNow, randomize, today} = require('./utils')
 const {messages, twitterKeys} = require('./env')
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient()
 
 exports.default = function(event, context, callback) {
+  if (!isScheduledNow('rsvps')) {
+    return callback()
+  }
+  console.log('posting rsvps')
+
   const client = new Twitter(twitterKeys)
 
   const day = today()

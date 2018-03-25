@@ -48,24 +48,24 @@ functions:
     events:
       - schedule:
           name: post-reminder
-          description: 'Post event tweet every Sunday at 11am PST'
-          rate: cron(0 19 ? * SUN *)
+          description: 'Post reminder tweet'
+          rate: cron(0 * * * ? *)
 
   postEvent:
     handler: src/postEvent.default
     events:
       - schedule:
           name: post-event
-          description: 'Post event tweet every Monday at 11am PST'
-          rate: cron(0 19 ? * MON *)
+          description: 'Post event tweet'
+          rate: cron(0 * * * ? *)
 
   postRSVPs:
     handler: src/postRSVPs.default
     events:
       - schedule:
           name: post-RSVPs
-          description: 'Tally responses and post update tweet every Monday at 5pm PST'
-          rate: cron(0 1 ? * TUE *)
+          description: 'Tally responses and post update tweet'
+          rate: cron(0 * * * ? *)
 
   crcHook:
     handler: src/crcCheck.default

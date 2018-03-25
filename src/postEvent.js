@@ -1,12 +1,17 @@
 const AWS = require('aws-sdk')
 const Twitter = require('twitter')
 
-const {randomize, today} = require('./utils')
+const {isScheduledNow, randomize, today} = require('./utils')
 const {messages, twitterKeys} = require('./env')
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient()
 
 module.exports.default = function(event, context, callback) {
+  if (!isScheduledNow('event')) {
+    return callback()
+  }
+  console.log('posting event')
+
   const client = new Twitter(twitterKeys)
   client.post('statuses/update', {
     status: randomize(messages.event_msg) + `\nhttps://twitter.com/messages/compose?recipient_id=${process.env.TWITTER_ID}`,

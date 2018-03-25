@@ -5,10 +5,15 @@ const Twitter = require('twitter')
 const CDP = require('chrome-remote-interface')
 const generateImage = require('typesetters-son')
 
-const {randomize} = require('./utils')
+const {isScheduledNow, randomize} = require('./utils')
 const {messages, twitterKeys} = require('./env')
 
 exports.default = function(event, context, callback, chrome) {
+  if (!isScheduledNow('reminder')) {
+    return callback()
+  }
+  console.log('posting reminder')
+
   const client = new Twitter(twitterKeys)
 
   const tomorrowText = moment().tz(messages.tz).add(1, 'days').format('dddd, MMMM D, YYYY')
