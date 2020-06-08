@@ -17,7 +17,7 @@ Dogpack is hosted on [AWS Lambda](https://aws.amazon.com/lambda/). To set up you
 1. Create a [new account on AWS](https://aws.amazon.com/)
    1. [Create a new user with "AdministratorAccess" privileges](https://serverless.com/framework/docs/providers/aws/guide/plugins#creating-aws-access-keys).
    1. Save Amazon credentials `npx serverless config credentials --provider aws --key KEY --secret SECRET --profile dogpackProd`.
-1. Create a [new Twitter app key](https://apps.twitter.com/app/new), setting callback URL to http://localhost:3000.
+1. Create a [new Twitter app key](https://apps.twitter.com/app/new), setting callback URL to http://localhost:3000/callback.
 1. Copy `messages.json.sample` to `messages.json`, and customize with your meetup details.
     
 1. Authenticate with Twitter:
