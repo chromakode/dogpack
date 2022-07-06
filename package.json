@@ -8,7 +8,7 @@
     "chrome-remote-interface": "^0.25.4",
     "emoji-regex": "^6.4.2",
     "lodash.sample": "^4.2.1",
-    "moment": "^2.18.1",
+    "moment": "^2.29.4",
     "moment-timezone": "^0.5.13",
     "oauth": "^0.9.15",
     "twitter": "^1.7.1",
