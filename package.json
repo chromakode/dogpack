@@ -9,7 +9,7 @@
     "emoji-regex": "^6.4.2",
     "lodash.sample": "^4.2.1",
     "moment": "^2.18.1",
-    "moment-timezone": "^0.5.13",
+    "moment-timezone": "^0.5.35",
     "oauth": "^0.9.15",
     "twitter": "^1.7.1",
     "typesetters-son": "^1.3.1"
